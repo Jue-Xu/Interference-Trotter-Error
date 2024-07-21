@@ -26,11 +26,11 @@ def lighten_color(color, amount=0.3):
     new_color = f"#{r:02x}{g:02x}{b:02x}{a:02x}"
     return new_color
 
-color_cycle_light = [lighten_color(color, 0.3) for color in color_cycle]
-# color_cycle_light = [color[:-2] + "60" for color in color_cycle]
-colors = mpl.cycler(mfc=color_cycle_light, color=color_cycle, markeredgecolor=color_cycle)
+def set_color_cycle(color_cycle, alpha=0.3):
+    color_cycle_light = [lighten_color(color, alpha) for color in color_cycle]
+    colors = mpl.cycler(mfc=color_cycle_light, color=color_cycle, markeredgecolor=color_cycle)
+    mpl.rc('axes', prop_cycle=colors)
 
-mpl.rc('axes', prop_cycle=colors)
 # mpl.rc('axes', grid=True, edgecolor='k', prop_cycle=colors)
 # mpl.rcParams['axes.prop_cycle'] = colors
 # mpl.rcParams['lines.markeredgecolor'] = 'C'
@@ -49,6 +49,7 @@ mpl.rcParams['lines.linewidth'] = 1.5
 mpl.rcParams['lines.markeredgewidth'] = 1.5
 mpl.rcParams['figure.dpi'] = 130
 mpl.rcParams['figure.figsize'] = (8, 6)
+mpl.rcParams['figure.autolayout'] = True
 mpl.rcParams['axes.grid'] = True
 
 SMALL_SIZE = 14

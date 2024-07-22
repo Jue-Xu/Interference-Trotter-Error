@@ -37,8 +37,8 @@ def set_color_cycle(color_cycle, alpha=0.3):
 
 mpl.rcParams['font.family'] = 'sans-serif'  # 'Helvetica'
 mpl.rcParams['axes.linewidth'] = 1.5
-mpl.rcParams["xtick.direction"] = "in" # 'out'
-mpl.rcParams["ytick.direction"] = "in"
+mpl.rcParams["xtick.direction"] = "out" # 'out'
+mpl.rcParams["ytick.direction"] = "out"
 mpl.rcParams['xtick.major.width'] = 1.5
 mpl.rcParams['ytick.major.width'] = 1.5
 mpl.rcParams['ytick.minor.width'] = 1.5
@@ -88,12 +88,12 @@ def linear_loglog_fit(x, y, verbose=False):
     # Predict y values
     y_pred = linear_func(log_x, a, b)
     # Print the parameters
-    if verbose: print('Slope (a):', a, 'Intercept (b):', b)
+    if verbose: print('Slope (a):', a, '; Intercept (b):', b)
     exp_y_pred = [exp(cost) for cost in y_pred]
 
     return exp_y_pred, a, b
 
-def plot_fit(ax, x, y, var='t', x_offset=1.07, y_offset=1.0, label='', ext_x=[], verbose=True):
+def plot_fit(ax, x, y, var='t', x_offset=1.07, y_offset=1.0, label='', ext_x=[], linestyle='k--', verbose=True):
     y_pred_em, a_em, b_em = linear_loglog_fit(x, y)
     if verbose: print(f'a_em: {a_em}; b_em: {b_em}')
     text_a_em = "{:.2f}".format(round(abs(a_em), 4))
@@ -101,12 +101,14 @@ def plot_fit(ax, x, y, var='t', x_offset=1.07, y_offset=1.0, label='', ext_x=[],
     if ext_x != []: x = ext_x
     y_pred_em = [exp(cost) for cost in a_em*np.array([log(n) for n in x]) + b_em]
     if label =='':
-        ax.plot(x, y_pred_em, 'k--', linewidth=2)
+        ax.plot(x, y_pred_em, linestyle, linewidth=2)
     else:
-        ax.plot(x, y_pred_em, 'k--', linewidth=2, label=label)
+        ax.plot(x, y_pred_em, linestyle, linewidth=2, label=label)
     ax.annotate(r'$O(%s^{%s})$' % (var, text_a_em), xy=(x[-1], np.real(y_pred_em)[-1]), xytext=(x[-1]*x_offset, np.real(y_pred_em)[-1]*y_offset))
 
-def ax_set_text(ax, x_label, y_label, title=None, legend='best', xticks=None, yticks=None, grid=None, log=''):
+    return a_em, b_em
+
+def ax_set_text(ax, x_label, y_label, title=None, legend='best', xticks=None, yticks=None, grid=None, log='', ylim=None):
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     if title: ax.set_title(title)
@@ -115,6 +117,7 @@ def ax_set_text(ax, x_label, y_label, title=None, legend='best', xticks=None, yt
     if xticks is not None: ax.set_xticks(xticks)
     if yticks is not None: ax.set_yticks(yticks)
     if grid: ax.grid()  
+    if ylim: ax.set_ylim(ylim)
 
     if log == 'x': 
         ax.set_xscale('log')

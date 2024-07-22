@@ -14,8 +14,11 @@ def norm(A, ord='spectral'):
         return np.linalg.norm(A)
     elif ord == 'spectral':
         return np.linalg.norm(A, ord=2)
+    elif ord == '4':
+        return np.trace(A @ A.conj().T @ A @ A.conj().T)**(1/4)
     else:
-        raise ValueError('norm is not defined')
+        # raise ValueError('norm is not defined')
+        return np.linalg.norm(A, ord=ord)
 
 def interference_bound(H, t, r):
     # Layden_2022_First-Order Trotter Error from a Second-Order Perspective

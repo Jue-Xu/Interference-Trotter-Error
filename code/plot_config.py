@@ -124,3 +124,20 @@ def ax_set_text(ax, x_label, y_label, title=None, legend='best', xticks=None, yt
         ax.loglog()
     else:
         pass
+
+def matrix_plot(M):
+    fig, ax = plt.subplots()
+    real_matrix = np.real(M)
+    # Plot the real part using a colormap
+    ax.imshow(real_matrix, cmap='RdYlBu', interpolation='nearest', origin='upper')
+    # Create grid lines
+    ax.grid(True, which='both', color='black', linewidth=1)
+    # Add color bar for reference
+    cbar = plt.colorbar(ax.imshow(real_matrix, cmap='RdYlBu', interpolation='nearest', origin='upper'), ax=ax, orientation='vertical')
+    cbar.set_label('Real Part')
+    # Add labels to the x and y axes
+    plt.xlabel('X-axis')
+    plt.ylabel('Y-axis')
+    # Show the plot
+    plt.title('Complex Matrix with Grid')
+    plt.show()

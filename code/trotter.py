@@ -22,6 +22,20 @@ import matplotlib.pyplot as plt
 
 from bounds import *
 
+def expH(H, t, method='scipy'):
+    # check H is Hermitian
+    if not np.allclose(H, H.conj().T):
+        raise ValueError('H is not Hermitian')
+
+    if method == 'expm':
+        return scipy.linalg.expm(-1j * t * H)
+    elif method == 'sparse':
+        return scipy.sparse.linalg.expm(-1j * t * H)
+    elif method == 'jax':
+        return jax.scipy.linalg.expm(-1j * t * H)
+    else:
+        raise ValueError(f'method={method} is not defined')
+
 def jax_matrix_exponential(matrix):
     # return jsl.expm( matrix)
     return ssla.expm(matrix)
@@ -91,7 +105,7 @@ def matrix_product(list_U, t=1):
     product = np.linalg.multi_dot([matrix_power(U, t) for U in list_U])
     return product
 
-def pf_r(h_list, t, r, order=2, verbose=False, use_jax=True):
+def pf_r(h_list, t, r, order=2, verbose=False, use_jax=False):
     if order == 2:
         if use_jax:
             list_U = [jax.scipy.linalg.expm(-1j * (t / (2*r)) * herm) for herm in h_list]

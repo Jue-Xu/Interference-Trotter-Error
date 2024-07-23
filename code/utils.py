@@ -18,6 +18,13 @@ import jax
 import jax.numpy as jnp
 import jax.scipy.linalg as jsl
 
+
+
+def find_closest_index(lst, value):
+    if len(lst) == 0:
+        return None
+    return min(range(len(lst)), key=lambda i: abs(lst[i] - value))
+
 def jax_matrix_exponential(matrix):
     # return jsl.expm( matrix)
     return ssla.expm(matrix)
@@ -237,10 +244,3 @@ def plot_trotter_error_vs_r(epsilon, t, ham_group, r_list, perm_label, markers, 
         print('intersect_indices: ',intersect_indices)
 
         return intersect_indices
-
-
-
-def find_closest_index(lst, value):
-    if len(lst) == 0:
-        return None
-    return min(range(len(lst)), key=lambda i: abs(lst[i] - value))

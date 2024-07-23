@@ -94,7 +94,7 @@ def linear_loglog_fit(x, y, verbose=False):
 
     return exp_y_pred, a, b
 
-def plot_fit(ax, x, y, var='t', x_offset=1.07, y_offset=1.0, label='', ext_x=[], linestyle='k--', verbose=True):
+def plot_fit(ax, x, y, var='t', x_offset=1.07, y_offset=1.0, label='', ext_x=[], linestyle='k--', linewidth=1.5, verbose=True):
     y_pred_em, a_em, b_em = linear_loglog_fit(x, y)
     if verbose: print(f'a_em: {a_em}; b_em: {b_em}')
     if abs(a_em) < 1e-3: 
@@ -105,9 +105,9 @@ def plot_fit(ax, x, y, var='t', x_offset=1.07, y_offset=1.0, label='', ext_x=[],
     if ext_x != []: x = ext_x
     y_pred_em = [exp(cost) for cost in a_em*np.array([log(n) for n in x]) + b_em]
     if label =='':
-        ax.plot(x, y_pred_em, linestyle, linewidth=2)
+        ax.plot(x, y_pred_em, linestyle, linewidth=linewidth)
     else:
-        ax.plot(x, y_pred_em, linestyle, linewidth=2, label=label)
+        ax.plot(x, y_pred_em, linestyle, linewidth=linewidth, label=label)
     ax.annotate(r'$O(%s^{%s})$' % (var, text_a_em), xy=(x[-1], np.real(y_pred_em)[-1]), xytext=(x[-1]*x_offset, np.real(y_pred_em)[-1]*y_offset))
 
     return a_em, b_em
@@ -130,7 +130,7 @@ def ax_set_text(ax, x_label, y_label, title=None, legend='best', xticks=None, yt
         pass
 
     if grid: ax.grid()  
-    if ylim: ax.set_ylim([ylim[0]*0.9, ylim[1]*1.1])
+    if ylim: ax.set_ylim([ylim[0]*0.85, ylim[1]*1.15])
 
     if xticks is not None: 
         ax.set_xticks(xticks)

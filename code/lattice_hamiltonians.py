@@ -28,8 +28,8 @@ mpl.rcParams['lines.linewidth'] = 1.5
 mpl.rcParams['figure.dpi'] = 150
 
 SMALL_SIZE = 14
-MEDIUM_SIZE = 15  #default 10
-LARGE_SIZE = 20
+MEDIUM_SIZE = 18  #default 10
+LARGE_SIZE = 24
 
 plt.rc('font', size=MEDIUM_SIZE)  # controls default text sizes
 plt.rc('axes', titlesize=LARGE_SIZE+2)  # fontsize of the axes title

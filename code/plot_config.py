@@ -63,7 +63,7 @@ plt.rc('axes', titlesize=LARGE_SIZE+2)  # fontsize of the axes title
 plt.rc('axes', labelsize=LARGE_SIZE)  # fontsize of the x and y labels
 plt.rc('xtick', labelsize=LARGE_SIZE)  # fontsize of the tick labels
 plt.rc('ytick', labelsize=LARGE_SIZE)  # fontsize of the tick labels
-plt.rc('legend', fontsize=MEDIUM_SIZE)  # legend fontsize
+plt.rc('legend', fontsize=MEDIUM_SIZE-2)  # legend fontsize
 plt.rc('figure', titlesize=LARGE_SIZE)  # fontsize of the figure title
 
 # def data_plot(x, y, marker, label, alpha=1, linewidth=1, loglog=True, markeredgecolor='black'):

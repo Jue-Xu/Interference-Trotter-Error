@@ -10,7 +10,7 @@ import colorsys
 # colors = mpl.cycler(color=["c", "m", "y", "r", "g", "b", "k"]) 
 # color_cycle = ["#4DBBD5FF", "#E64B35FF", "#00A087FF", "#70699e", "#F39B7FFF", "#3C5488FF", "#7E6148FF","#DC0000FF",  "#91D1C2FF", "#B09C85FF", "#923a3a", "#8491B4FF"]
 # color_cycle = ["#B65655FF", "#5471abFF", "#6aa66eFF", "#A66E6AFF", "#e3a13aFF", "#7a2c29FF", "#253a6aFF", "#8b9951FF"]
-color_cycle = ["#b5423dFF", "#405977FF", "#616c3aFF", "#e3a13aFF", "#7a2c29FF", "#253a6aFF", "#8b9951FF"]
+default_color_cycle = ["#b5423dFF", "#405977FF", "#616c3aFF", "#e3a13aFF", "#7a2c29FF", "#253a6aFF", "#8b9951FF"]
 
 # Function to lighten a color
 def lighten_color(color, amount=0.3):
@@ -31,6 +31,7 @@ def set_color_cycle(color_cycle, alpha=0.3):
     colors = mpl.cycler(mfc=color_cycle_light, color=color_cycle, markeredgecolor=color_cycle)
     mpl.rc('axes', prop_cycle=colors)
 
+set_color_cycle(default_color_cycle)
 # mpl.rc('axes', grid=True, edgecolor='k', prop_cycle=colors)
 # mpl.rcParams['axes.prop_cycle'] = colors
 # mpl.rcParams['lines.markeredgecolor'] = 'C'
@@ -42,12 +43,12 @@ mpl.rcParams["ytick.direction"] = "out"
 mpl.rcParams['xtick.major.width'] = 1.5
 mpl.rcParams['ytick.major.width'] = 1.5
 mpl.rcParams['ytick.minor.width'] = 1.5
-mpl.rcParams['lines.markersize'] = 10
-mpl.rcParams['legend.frameon'] = False
+mpl.rcParams['lines.markersize'] = 11
+mpl.rcParams['legend.frameon'] = True
 mpl.rcParams['lines.linewidth'] = 1.5
 # plt.rcParams['lines.markeredgecolor'] = 'k'
 mpl.rcParams['lines.markeredgewidth'] = 1.5
-mpl.rcParams['figure.dpi'] = 130
+mpl.rcParams['figure.dpi'] = 100
 mpl.rcParams['figure.figsize'] = (8, 6)
 mpl.rcParams['figure.autolayout'] = True
 mpl.rcParams['axes.grid'] = True
@@ -96,7 +97,10 @@ def linear_loglog_fit(x, y, verbose=False):
 def plot_fit(ax, x, y, var='t', x_offset=1.07, y_offset=1.0, label='', ext_x=[], linestyle='k--', verbose=True):
     y_pred_em, a_em, b_em = linear_loglog_fit(x, y)
     if verbose: print(f'a_em: {a_em}; b_em: {b_em}')
-    text_a_em = "{:.2f}".format(round(abs(a_em), 4))
+    if abs(a_em) < 1e-3: 
+        text_a_em = "{:.2f}".format(round(abs(a_em), 4))
+    else:
+        text_a_em = "{:.2f}".format(round(a_em, 4))
 
     if ext_x != []: x = ext_x
     y_pred_em = [exp(cost) for cost in a_em*np.array([log(n) for n in x]) + b_em]
@@ -114,19 +118,27 @@ def ax_set_text(ax, x_label, y_label, title=None, legend='best', xticks=None, yt
     if title: ax.set_title(title)
     if legend: ax.legend(loc=legend)
 
-    if xticks is not None: ax.set_xticks(xticks)
-    if yticks is not None: ax.set_yticks(yticks)
-    if grid: ax.grid()  
-    if ylim: ax.set_ylim(ylim)
-
     if log == 'x': 
         ax.set_xscale('log')
     elif log == 'y':
         ax.set_yscale('log')
     elif log == 'xy':
+        # ax.set_xscale('log')
+        # ax.set_yscale('log')
         ax.loglog()
     else:
         pass
+
+    if grid: ax.grid()  
+    if ylim: ax.set_ylim([ylim[0]*0.9, ylim[1]*1.1])
+
+    if xticks is not None: 
+        ax.set_xticks(xticks)
+        ax.get_xaxis().set_major_formatter(mpl.ticker.ScalarFormatter())
+
+    if yticks is not None: 
+        ax.set_yticks(yticks)
+        ax.get_yaxis().set_major_formatter(mpl.ticker.ScalarFormatter())
 
 def matrix_plot(M):
     fig, ax = plt.subplots()

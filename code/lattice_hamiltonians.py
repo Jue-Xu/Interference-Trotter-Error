@@ -264,7 +264,7 @@ class heisenberg_1d:
 
 """Define the Hubbard Hamiltonian by OpenFermion."""
 class hubbard_openfermion:
-    def __init__(self, nsites, U, J=-1.0, periodic=False, verbose=False):
+    def __init__(self, nsites, U, J=-1.0, pbc=False, verbose=False):
         # Each site has two spins.
         self.n_qubits = 2 * nsites
 
@@ -283,7 +283,7 @@ class hubbard_openfermion:
             for i in range(0, self.n_qubits, 2)]
         self.two_body_sparse = fop_2_sparse(self.two_body_fops)
 
-        self.h_fop = of.fermi_hubbard(1, nsites, tunneling=-J, coulomb=U, periodic=periodic)
+        self.h_fop = of.fermi_hubbard(1, nsites, tunneling=-J, coulomb=U, periodic=pbc)
         self.h_sparse = of.get_sparse_operator(self.h_fop)
         self.ground_energy, self.ground_state = of.get_ground_state(self.h_sparse)
         assert sum(self.one_body_fops) + sum(self.two_body_fops) == self.h_fop

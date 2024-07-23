@@ -125,7 +125,15 @@ def pf_r(h_list, t, r, order=2, verbose=False, use_jax=False):
         appro_U = np.linalg.matrix_power(appro_U_dt_forward @ appro_U_dt_reverse, r)
         if verbose: print('----matrix power finished----')
     elif order == 1:
-        list_U = [jax.scipy.linalg.expm(-1j * (t / (r)) * herm.toarray()) for herm in h_list]
+        if use_jax:
+            list_U = [jax.scipy.linalg.expm(-1j * (t / r) * herm) for herm in h_list]
+        else:
+            if isinstance(h_list[0], csr_matrix):
+                list_U = [scipy.linalg.expm(-1j * (t / r) * herm.toarray()) for herm in h_list]
+            elif isinstance(h_list[0], np.ndarray):
+                list_U = [scipy.linalg.expm(-1j * (t / r) * herm) for herm in h_list]
+            else:
+                raise ValueError('h_list is not defined')
         appro_U_dt = np.linalg.multi_dot(list_U)
         appro_U = np.linalg.matrix_power(appro_U_dt, r)
 

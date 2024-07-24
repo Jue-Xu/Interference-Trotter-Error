@@ -55,6 +55,7 @@ mpl.rcParams['figure.dpi'] = 100
 mpl.rcParams['figure.figsize'] = (8, 6)
 mpl.rcParams['figure.autolayout'] = True
 mpl.rcParams['axes.grid'] = True
+mpl.rcParams['savefig.bbox'] = 'tight'
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18  #default 10

@@ -26,9 +26,12 @@ def lighten_color(color, amount=0.3):
     new_color = f"#{r:02x}{g:02x}{b:02x}{a:02x}"
     return new_color
 
-def set_color_cycle(color_cycle, alpha=0.3):
+def set_color_cycle(color_cycle, alpha=0.3, mfc=True):
     color_cycle_light = [lighten_color(color, alpha) for color in color_cycle]
-    colors = mpl.cycler(mfc=color_cycle_light, color=color_cycle, markeredgecolor=color_cycle)
+    if mfc:
+        colors = mpl.cycler(mfc=color_cycle_light, color=color_cycle, markeredgecolor=color_cycle)
+    else:
+        colors = mpl.cycler(color=color_cycle, markeredgecolor=color_cycle)
     mpl.rc('axes', prop_cycle=colors)
 
 set_color_cycle(default_color_cycle)

@@ -41,8 +41,8 @@ set_color_cycle(default_color_cycle)
 
 mpl.rcParams['font.family'] = 'sans-serif'  # 'Helvetica'
 mpl.rcParams['axes.linewidth'] = 1.5
-mpl.rcParams["xtick.direction"] = "out" # 'out'
-mpl.rcParams["ytick.direction"] = "out"
+mpl.rcParams["xtick.direction"] = 'out' # 'out'
+mpl.rcParams["ytick.direction"] = 'out'
 mpl.rcParams['xtick.major.width'] = 1.5
 mpl.rcParams['ytick.major.width'] = 1.5
 mpl.rcParams['ytick.minor.width'] = 1.5
@@ -56,6 +56,7 @@ mpl.rcParams['figure.figsize'] = (8, 6)
 mpl.rcParams['figure.autolayout'] = True
 mpl.rcParams['axes.grid'] = True
 mpl.rcParams['savefig.bbox'] = 'tight'
+mpl.rcParams['savefig.transparent'] = True
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18  #default 10

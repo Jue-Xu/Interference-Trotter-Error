@@ -42,5 +42,6 @@ def interference_bound_new(R, H, T, eps):
     delta_norm = spectral_norm(near_diagonal(R, eigenvalues, eps)) # eps refers to the spectral gap
     resid_norm = spectral_norm(R-near_diagonal(R, eigenvalues, eps))
     # print(R_norm, delta_norm, resid_norm)
-    return (resid_norm * min(1, (1 / (eps * T))) + delta_norm) 
+    # return (resid_norm * min(1, (1 / (eps * T))) + delta_norm) 
+    return (resid_norm *  (1 / (eps * T)) + delta_norm) 
 ########## Boyang's code ##########

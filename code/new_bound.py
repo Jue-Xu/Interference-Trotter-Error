@@ -45,3 +45,17 @@ def interference_bound_new(R, H, T, eps):
     # return (resid_norm * min(1, (1 / (eps * T))) + delta_norm) 
     return (resid_norm *  (1 / (eps * T)) + delta_norm) 
 ########## Boyang's code ##########
+
+
+def interference_bound_new2(R, H, T):
+    eigenvalues, eigenvectors = eig(H)
+    near_norm = {}
+    for i in range(-10, 5):        
+        if i==-10:
+            near_norm[i] = spectral_norm(near_diagonal(R, eigenvalues, 2 ** i))
+        else:
+            near_norm[i] = spectral_norm(near_diagonal(R, eigenvalues, 2 ** i)) - spectral_norm(near_diagonal(R, eigenvalues, 2 ** (i-1)))
+    interference_R = 0
+    for i in range(-10, 5):
+        interference_R += near_norm[i] * min(1, 1/(T*(2**i)))
+    return interference_R

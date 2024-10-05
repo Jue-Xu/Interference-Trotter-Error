@@ -59,3 +59,29 @@ def interference_bound_new2(R, H, T):
     for i in range(-10, 5):
         interference_R += near_norm[i] * min(1, 1/(T*(2**i)))
     return interference_R
+
+def interference_bound_new3(R, H, dt):
+    H_mat, R_mat = H, R
+    HR_mat = H_mat + R_mat * dt / (2j) 
+    HR_eigvals, HR_eigvecs = np.linalg.eigh(HR_mat)[0], np.linalg.eigh(HR_mat)[1]
+    H_eigvals, H_eigvecs = np.linalg.eigh(H_mat)[0], np.linalg.eigh(H_mat)[1]
+
+    eps = 1e-3
+    dim = len(H_eigvals)
+    DR =  np.zeros((dim, dim), dtype=complex)
+    RR =  np.zeros((dim, dim), dtype=complex)
+
+    B = H_eigvecs.T.conj() @ R_mat @ HR_eigvecs
+    for j in range(dim):
+        for k in range(dim):
+            v, u = H_eigvecs[:, j], HR_eigvecs[:, k]
+            # b_jk = v.T.conj() @ R_mat @ u
+            # print('b_jk: ', b_jk)
+            if abs(H_eigvals[j] - HR_eigvals[k]) < eps:
+                DR += B[j,k] * np.outer(v, u.conj())
+            else:
+                RR += 1/(H_eigvals[j] - HR_eigvals[k]) * B[j,k] * np.outer(v, u.conj())
+
+    print(f'||Delta(R)||={np.linalg.norm(DR, ord=2)}, ||R(R)||={np.linalg.norm(RR, ord=2)}')
+
+    return np.linalg.norm(DR, ord=2), np.linalg.norm(RR, ord=2)

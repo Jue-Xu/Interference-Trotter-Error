@@ -60,13 +60,12 @@ def interference_bound_new2(R, H, T):
         interference_R += near_norm[i] * min(1, 1/(T*(2**i)))
     return interference_R
 
-def interference_bound_new3(R, H, dt):
+def interference_bound_new3(R, H, dt, eps = 1e-3, verbose=False):
     H_mat, R_mat = H, R
     HR_mat = H_mat + R_mat * dt / (2j) 
     HR_eigvals, HR_eigvecs = np.linalg.eigh(HR_mat)[0], np.linalg.eigh(HR_mat)[1]
     H_eigvals, H_eigvecs = np.linalg.eigh(H_mat)[0], np.linalg.eigh(H_mat)[1]
 
-    eps = 1e-3
     dim = len(H_eigvals)
     DR =  np.zeros((dim, dim), dtype=complex)
     RR =  np.zeros((dim, dim), dtype=complex)
@@ -82,6 +81,6 @@ def interference_bound_new3(R, H, dt):
             else:
                 RR += 1/(H_eigvals[j] - HR_eigvals[k]) * B[j,k] * np.outer(v, u.conj())
 
-    print(f'||Delta(R)||={np.linalg.norm(DR, ord=2)}, ||R(R)||={np.linalg.norm(RR, ord=2)}')
+    if verbose: print(f'||Delta(R)||={np.linalg.norm(DR, ord=2)}, ||R(R)||={np.linalg.norm(RR, ord=2)}')
 
     return np.linalg.norm(DR, ord=2), np.linalg.norm(RR, ord=2)

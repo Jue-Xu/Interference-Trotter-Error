@@ -1,9 +1,8 @@
 # Trotter-Error-Interference
 
-[`Error interference in quantum simulation`](https://arxiv.org/pdf/xxxx.pdf).
+[`Error interference in quantum simulation`](https://arxiv.org/pdf/2411.03255.pdf).
 Boyang Chen, Jue Xu, Xiao Yuan and Qi Zhao, 2024
-[![https://arxiv.org/abs/xxxx](https://img.shields.io/badge/paper%20%28v1%29-arXiv%3A24xx.xxxxx-B31B1B)](https://arxiv.org/abs/xxxx)
-
+[![https://arxiv.org/abs/xxxx](https://img.shields.io/badge/paper%20%28v1%29-arXiv%3A2411.03255-B31B1B)](https://arxiv.org/abs/2411.03255)
 
 ## Tri-grouping Hamiltonian 
 <!-- ![Figure](./figs/step.png) -->
